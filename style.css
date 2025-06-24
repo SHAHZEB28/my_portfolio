@@ -1,4 +1,4 @@
-/* --- Global Styles & Variables --- */
+/* --- Global Styles & Variables START --- */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
 
 :root {
@@ -10,6 +10,9 @@
     --text-light: #e0e0e0;
     --text-dark: #333;
     --card-bg: rgba(255, 255, 255, 0.05);
+    /* CSS variables for the mouse position */
+    --x: 50%;
+    --y: 50%;
 }
 
 * {
@@ -26,17 +29,29 @@ body {
     font-family: 'Poppins', sans-serif;
     line-height: 1.7;
     color: var(--text-light);
-    background: linear-gradient(315deg, var(--bg-dark) 0%, var(--bg-mid) 74%);
+    background: var(--bg-dark); /* Changed to a solid color for the gradient effect to work on top */
     overflow-x: hidden;
+    position: relative; /* Needed for the pseudo-element to be positioned correctly */
 }
+/* --- Global Styles & Variables END --- */
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+
+/* --- NEW: 3D Background Effect START --- */
+body::before {
+    content: '';
+    position: fixed; /* Use fixed to cover the whole viewport and stay in place on scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at var(--x) var(--y), rgba(142, 68, 173, 0.25), transparent 30%);
+    z-index: -1; /* Place it behind all content */
+    pointer-events: none; /* Make sure it doesn't interfere with mouse clicks */
 }
+/* --- NEW: 3D Background Effect END --- */
 
-/* --- Header & Navigation --- */
+
+/* --- Header & Navigation START --- */
 header {
     position: fixed;
     top: 0;
@@ -110,8 +125,10 @@ nav {
 .nav-links a.active, .nav-links a:hover {
     color: var(--primary-color);
 }
+/* --- Header & Navigation END --- */
 
-/* --- Hero Section --- */
+
+/* --- Hero Section START --- */
 .hero {
     min-height: 100vh;
     display: flex;
@@ -183,9 +200,16 @@ nav {
     color: var(--text-dark);
     transform: translateY(-3px);
 }
+/* --- Hero Section END --- */
 
 
-/* --- General Section Styling --- */
+/* --- General Section Styling START --- */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
 section {
     padding: 100px 0;
 }
@@ -209,8 +233,10 @@ section {
     background: var(--primary-color);
     border-radius: 2px;
 }
+/* --- General Section Styling END --- */
 
-/* --- About Section --- */
+
+/* --- About Section START --- */
 .about-content {
     display: grid;
     grid-template-columns: 1fr 2fr;
@@ -249,26 +275,32 @@ section {
     font-weight: bold;
     color: var(--primary-color);
 }
+/* --- About Section END --- */
 
-/* --- Glassmorphism Card Base Style --- */
+
+/* --- Glassmorphism Card Base Style START --- */
 .timeline-content, .project-card, .skill-category, .achievement-card, .contact-form {
     background: var(--card-bg);
     backdrop-filter: blur(10px);
     border-radius: 15px;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 2rem;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex; 
+    flex-direction: column; 
 }
+
 .timeline-content:hover, .project-card:hover, .skill-category:hover, .achievement-card:hover {
     box-shadow: 0 0 30px rgba(0,0,0,0.5);
     border-color: rgba(244, 208, 63, 0.5);
 }
+/* --- Glassmorphism Card Base Style END --- */
 
-/* --- Experience Section --- */
+
+/* --- Experience Section START --- */
 .experience-timeline {
     position: relative;
     padding: 2rem 0;
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 .experience-timeline::before {
@@ -310,16 +342,104 @@ section {
 }
 .timeline-content {
     position: relative;
+    padding: 2rem; 
 }
+.experience-description {
+    font-size: 0.95rem;
+    line-height: 1.8;
+    color: var(--text-light);
+}
+/* --- Experience Section END --- */
 
-/* --- Projects & Skills Grid --- */
+
+/* --- Projects Grid START --- */
 .projects-grid, .skills-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 2rem;
 }
+/* --- Projects Grid END --- */
 
-/* --- Achievements Grid --- */
+
+/* --- Projects Section Specifics START --- */
+.project-card {
+    overflow: hidden; 
+}
+
+.project-image {
+    width: 100%;
+    aspect-ratio: 16 / 9; 
+    object-fit: cover; 
+    transition: transform 0.3s ease-in-out;
+}
+
+.project-card:hover .project-image {
+    transform: scale(1.05); 
+}
+
+.project-body {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; 
+}
+
+.project-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.project-description {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    flex-grow: 1; 
+}
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+/* --- Projects Section Specifics END --- */
+
+
+/* --- Skills Section Specifics START --- */
+.skill-category {
+    padding: 2rem; 
+}
+
+.skill-category h3 {
+    margin-bottom: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.8rem; 
+}
+
+.skill-item {
+    background: var(--primary-color);
+    color: var(--text-dark);
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: transform 0.2s ease;
+}
+
+.skill-item:hover {
+    transform: scale(1.1);
+}
+/* --- Skills Section Specifics END --- */
+
+
+/* --- Achievements Grid START --- */
 .achievements-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -327,34 +447,69 @@ section {
 }
 .achievement-card {
     text-align: center;
+    padding: 2rem; 
 }
 .achievement-icon {
     font-size: 3rem;
     margin-bottom: 1rem;
     color: var(--primary-color);
 }
+/* --- Achievements Grid END --- */
 
-/* --- Contact Section --- */
+
+/* --- Contact Section START --- */
 .contact-content {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
     gap: 3rem;
     align-items: flex-start;
 }
+
+.contact-info h3 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.contact-info p {
+    margin-bottom: 2.5rem;
+}
+
 .contact-item {
     display: flex;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
     font-size: 1.1rem;
 }
+
 .contact-item i {
     color: var(--primary-color);
-    margin-right: 1rem;
+    margin-right: 1.5rem;
     font-size: 1.5rem;
+    width: 30px;
+    text-align: center;
 }
+
+.contact-item a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.contact-item a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.contact-form {
+    padding: 2rem; 
+}
+
 .form-group {
     margin-bottom: 1.5rem;
 }
+
 .form-group input, .form-group textarea {
     width: 100%;
     padding: 0.8rem;
@@ -363,8 +518,10 @@ section {
     border-radius: 8px;
     color: var(--text-light);
 }
+/* --- Contact Section END --- */
 
-/* --- Footer --- */
+
+/* --- Footer START --- */
 footer {
     text-align: center;
     padding: 2rem 0;
@@ -380,8 +537,10 @@ footer {
 .footer-socials a:hover {
     color: var(--primary-color);
 }
+/* --- Footer END --- */
 
-/* --- Animations --- */
+
+/* --- Animations START --- */
 .animated-section {
     opacity: 0;
     transform: translateY(50px);
@@ -391,8 +550,10 @@ footer {
     opacity: 1;
     transform: translateY(0);
 }
+/* --- Animations END --- */
 
-/* --- Responsive Design --- */
+
+/* --- Responsive Design START --- */
 @media (max-width: 768px) {
     .nav-links { display: none; }
     .about-content, .contact-content { grid-template-columns: 1fr; }
@@ -400,3 +561,4 @@ footer {
     .timeline-item, .timeline-item:nth-child(even) { width: 100%; left: 0; padding-left: 50px; }
     .timeline-item::after { left: 0; }
 }
+/* --- Responsive Design END --- */

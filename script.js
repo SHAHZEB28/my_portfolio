@@ -1,5 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- NEW: 3D Background Effect ---
+    // This script tracks the mouse position and updates the CSS variables --x and --y
+    document.addEventListener('mousemove', (e) => {
+        const root = document.documentElement;
+        root.style.setProperty('--x', e.clientX + 'px');
+        root.style.setProperty('--y', e.clientY + 'px');
+    });
+
+
     // --- Typing Animation ---
     const typingText = document.querySelector('.typing-text');
     const texts = ["Full Stack Developer", "Software Engineer", "Problem Solver"];
@@ -26,7 +35,9 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(type, 500);
         }
     }
-    type();
+    if (typingText) {
+        type();
+    }
 
 
     // --- Scroll Animations ---
